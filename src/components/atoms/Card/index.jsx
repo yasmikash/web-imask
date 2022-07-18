@@ -1,52 +1,66 @@
 import React from "react";
+import { useApp } from "../../../context/AppContext";
 
-const Card = ({ type, measure, active, onClickCard }) => {
+const Card = ({ type, active, onClickCard }) => {
+  const { analyzedAll } = useApp();
+
   let title = "";
   let unit = "";
   let icon = "";
   let bgColor = "bg-white";
   let titleBorderColor = "border-b-green-50";
+  let measure = 0;
 
   switch (type) {
     case "breathing":
       title = "Breathing Pattern";
       unit = "BPM";
       icon = "bg-breathing";
+      measure = analyzedAll.avgBpm;
       break;
     case "temparature":
       title = "Temparature";
       unit = "°C";
       icon = "bg-temparature";
+      measure = analyzedAll.avgTemperature;
+
       break;
     case "heartrate":
       title = "Heart Rate";
       unit = "BPM";
       icon = "bg-heartrate";
+      measure = analyzedAll.avgHeartRate;
+
       break;
     case "cough":
       title = "Cough";
       unit = "CPM";
       icon = "bg-cough";
+      measure = analyzedAll.avgCoughRate;
+
       break;
     case "oxygen":
       title = "Oxygen Saturation";
       unit = "02";
       icon = "bg-oxygen";
+      measure = analyzedAll.avgSpo2;
       break;
     case "final":
       title = "COVID-19 Status";
       unit = "%";
       icon = "bg-final";
+      measure = analyzedAll.avgCovidStatusProbability * 100;
+
     default:
       break;
   }
 
-  if (type === "final" && measure > 50) {
+  if (type === "final" && Number(measure) > 80) {
     bgColor = "bg-red-50";
     titleBorderColor = "border-b-red-100";
   }
 
-  if (type === "final" && measure <= 50) {
+  if (type === "final" && Number(measure) <= 80) {
     bgColor = "bg-green-50";
     titleBorderColor = "border-b-green-100";
   }

@@ -1,9 +1,9 @@
 import React from "react";
 import ReactDatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
+import "../../../styles/date-picker.scss";
 
-const DatePicker = ({ startDate = new Date(), onChangeDate }) => {
-  return <ReactDatePicker selected={startDate} onChange={onChangeDate} />;
+const DatePicker = ({ selected, onChangeDate }) => {
+  return <ReactDatePicker selected={selected} onChange={onChangeDate} />;
 };
 
 export default DatePicker;

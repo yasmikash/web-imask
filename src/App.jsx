@@ -1,10 +1,15 @@
 import { useRoutes } from "react-router-dom";
 import { routes } from "./configs/routes";
+import AppContainer from "./containers/AppContainer";
 
 function App() {
   const routeElements = useRoutes(routes);
 
-  return <div>{routeElements}</div>;
+  return (
+    <AppContainer>
+      <div>{routeElements}</div>
+    </AppContainer>
+  );
 }
 
 export default App;

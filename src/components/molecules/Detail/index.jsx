@@ -1,5 +1,19 @@
 import React from "react";
-import DataChartContainer from "../../../containers/DataChartContainer";
+import AnalyzedStatusContainer from "../../../containers/AnalyzedStatusContainer";
+import AnalyzedBPMContainer from "../../../containers/AnalyzedBPMContainer";
+import AnalyzedSPO2Container from "../../../containers/AnalyzedSPO2Container";
+import AnalyzedCoughRateContainer from "../../../containers/AnalyzedCoughRateContainer";
+import AnalyzedHeartRateContainer from "../../../containers/AnalyzedHeartRateContainer";
+import AnalyzedTempContainer from "../../../containers/AnalyzedTempContainer";
+
+const chartContainers = {
+  breathing: <AnalyzedBPMContainer />,
+  oxygen: <AnalyzedSPO2Container />,
+  cough: <AnalyzedCoughRateContainer />,
+  heartrate: <AnalyzedHeartRateContainer />,
+  temparature: <AnalyzedTempContainer />,
+  final: <AnalyzedStatusContainer />,
+};
 
 export const Detail = ({ type }) => {
   let description = "";
@@ -50,7 +64,7 @@ export const Detail = ({ type }) => {
       <h4 className="text-sm font-semibold border-b-4 border-b-green-50 my-4 pb-2">
         {chartHeader}
       </h4>
-      <DataChartContainer />
+      {chartContainers[type]}
       {type !== "final" && (
         <div className="mt-8">
           <h4 className="text-sm font-semibold border-b-4 border-b-green-50 my-4 pb-2">

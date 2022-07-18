@@ -1,23 +1,24 @@
 import { Dashboard } from "../components/pages";
-import { MainLayout } from "../components/templates";
+import { LoginLayout, MainLayout } from "../components/templates";
+import ProtectedRoute from "../routes/ProtectedRoute";
 
 export const routes = [
   {
     path: "/",
-    element: <MainLayout />,
+    element: (
+      <ProtectedRoute>
+        <MainLayout />
+      </ProtectedRoute>
+    ),
     children: [
       {
         index: true,
         element: <Dashboard />,
       },
-      //   {
-      //     path: "contact",
-      //     element: <Contact />,
-      //   },
-      //   {
-      //     path: "login",
-      //     element: <Login />,
-      //   },
     ],
+  },
+  {
+    path: "login",
+    element: <LoginLayout />,
   },
 ];

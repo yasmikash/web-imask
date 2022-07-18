@@ -74,31 +74,23 @@ export const options = {
   },
 };
 
-const labels = [
-  "2022-07-05",
-  "2022-07-06",
-  "2022-07-07",
-  "2022-07-08",
-  "2022-07-09",
-  "2022-07-10",
-  "2022-07-11",
-];
+const LineChart = ({ data, labels }) => {
+  console.log(data, labels);
 
-const data = {
-  labels,
-  datasets: [
-    {
-      label: "COVID-19 Status",
-      data: labels.map(() => faker.datatype.number({ min: 0, max: 100 })),
-      borderColor: "#10C091",
-      borderWidth: 4,
-      backgroundColor: "#10C091",
-    },
-  ],
-};
+  const chartData = {
+    labels,
+    datasets: [
+      {
+        label: "COVID-19 Status",
+        data,
+        borderColor: "#10C091",
+        borderWidth: 4,
+        backgroundColor: "#10C091",
+      },
+    ],
+  };
 
-const LineChart = () => {
-  return <Line options={options} data={data} />;
+  return <Line options={options} data={chartData} />;
 };
 
 export default LineChart;
