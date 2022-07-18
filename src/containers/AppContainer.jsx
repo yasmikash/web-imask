@@ -31,7 +31,6 @@ const requestStatusInit = {
 };
 
 const stateUpdate = (state) => (prevState) => {
-  console.log(prevState);
   return { ...prevState, ...state };
 };
 

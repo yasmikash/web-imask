@@ -75,8 +75,6 @@ export const options = {
 };
 
 const LineChart = ({ data, labels }) => {
-  console.log(data, labels);
-
   const chartData = {
     labels,
     datasets: [

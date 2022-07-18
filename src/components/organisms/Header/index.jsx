@@ -7,7 +7,11 @@ import { Menu } from "@headlessui/react";
 const Header = () => {
   const { logout, requestStatus, analyzedAll, userProfile } = useApp();
 
-  let avgCovidStatusProbability = analyzedAll.avgCovidStatusProbability * 100;
+  let avgCovidStatusProbability = 0;
+
+  if (REQUEST_STATUS.FULFILLED === requestStatus.fecthAnalyzedAll) {
+    avgCovidStatusProbability = analyzedAll.avgCovidStatusProbability * 100;
+  }
 
   return (
     <div
