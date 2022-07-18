@@ -34,6 +34,7 @@ const LoginCard = ({
           value={password}
           onChange={onChangePassword}
           label="Password"
+          type="password"
         />
         <Button
           onClick={(event) => {

@@ -39,13 +39,13 @@ export const Detail = ({ type }) => {
       break;
     case "cough":
       description =
-        "This sections shows you an analysis of your cough rate in CPM (Cough Per Minute) within the specified date range.";
+        "This sections shows you an analysis of your cough rate in CPS (Cough Per Second) within the specified date range.";
       chartHeader = "Cough Rate Chart";
 
       break;
     case "oxygen":
       description =
-        "This sections shows you an analysis of your blood oxygen saturation level in CPM (Cough Per Minute) within the specified date range.";
+        "This sections shows you an analysis of your blood oxygen saturation level in percentage within the specified date range.";
       chartHeader = "Blood Oxygen Level Rate Chart";
 
       break;

@@ -34,14 +34,14 @@ const Card = ({ type, active, onClickCard }) => {
       break;
     case "cough":
       title = "Cough";
-      unit = "CPM";
+      unit = "CPS";
       icon = "bg-cough";
       measure = analyzedAll.avgCoughRate;
 
       break;
     case "oxygen":
       title = "Oxygen Saturation";
-      unit = "02";
+      unit = "%";
       icon = "bg-oxygen";
       measure = analyzedAll.avgSpo2;
       break;

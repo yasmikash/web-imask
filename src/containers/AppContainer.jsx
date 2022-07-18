@@ -48,6 +48,7 @@ const AppContainer = ({ children }) => {
   const [analyzedTemp, setAnalyzedTemp] = useState(null);
   const [analyzedCoughRate, setAnalyzedCoughRate] = useState(null);
   const [analyzedSpo2, setAnalyzedSpo2] = useState(null);
+  const [isMapModalOpen, setMapModalOpen] = useState(false);
 
   const logout = () => {
     localStorage.removeItem("imask-token");
@@ -216,6 +217,14 @@ const AppContainer = ({ children }) => {
     }
   };
 
+  const openMapModal = () => {
+    setMapModalOpen(true);
+  };
+
+  const closeMapModal = () => {
+    setMapModalOpen(false);
+  };
+
   return (
     <>
       <AppContext.Provider
@@ -231,6 +240,9 @@ const AppContainer = ({ children }) => {
           fecthAnalyzedTemp,
           fecthAnalyzedSpo2,
           logout,
+          openMapModal,
+          closeMapModal,
+          isMapModalOpen,
           requestStatus,
           token,
           userProfile,

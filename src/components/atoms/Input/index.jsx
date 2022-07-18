@@ -1,13 +1,20 @@
 import React from "react";
 
-const Input = ({ label, placeholder, value, name, onChange }) => {
+const Input = ({
+  label,
+  placeholder,
+  value,
+  name,
+  onChange,
+  type = "text",
+}) => {
   return (
     <div className="flex flex-col text-sm">
       <label htmlFor={name} className="text-xs">
         {label}
       </label>
       <input
-        type="text"
+        type={type}
         value={value}
         onChange={onChange}
         placeholder={placeholder}

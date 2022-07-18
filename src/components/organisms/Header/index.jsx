@@ -1,11 +1,20 @@
 import React from "react";
-import { HomeIcon } from "@heroicons/react/solid";
+import { HomeIcon, LocationMarkerIcon } from "@heroicons/react/solid";
 import { CircleButton, ProfilePhoto, ProfilePhotoSkeleton } from "../../atoms";
 import { useApp } from "../../../context/AppContext";
 import { REQUEST_STATUS } from "../../../utils/constants";
 import { Menu } from "@headlessui/react";
+import MapModal from "../MapModal";
 const Header = () => {
-  const { logout, requestStatus, analyzedAll, userProfile } = useApp();
+  const {
+    logout,
+    requestStatus,
+    analyzedAll,
+    userProfile,
+    isMapModalOpen,
+    openMapModal,
+    closeMapModal,
+  } = useApp();
 
   let avgCovidStatusProbability = 0;
 
@@ -27,42 +36,50 @@ const Header = () => {
         ) : (
           <div
             className={`rounded-xl px-2 text-white text-[10px] p-1 ${
-              avgCovidStatusProbability > 80 ? "bg-red-500" : "bg-primary-green"
+              avgCovidStatusProbability > 80 ? "bg-red-500" : "bg-light-green"
             }`}
           >
             COVID-19 STATUS: {avgCovidStatusProbability} %
           </div>
         )}
       </div>
-      {REQUEST_STATUS.IDLE === requestStatus.fetchUserProfile ||
-      REQUEST_STATUS.PENDING === requestStatus.fetchUserProfile ? (
-        <ProfilePhotoSkeleton />
-      ) : (
-        <Menu as="div" className="relative inline-block text-left">
-          <div>
-            <Menu.Button>
-              <ProfilePhoto photo={userProfile.photo} />
-            </Menu.Button>
-          </div>
-          <Menu.Items
-            className="text-xs absolute right-0 w-40 mt-1 origin-top-right
+      <div className="flex gap-8 items-center">
+        <CircleButton
+          onClick={openMapModal}
+          active={isMapModalOpen}
+          icon={LocationMarkerIcon}
+        />
+        {REQUEST_STATUS.IDLE === requestStatus.fetchUserProfile ||
+        REQUEST_STATUS.PENDING === requestStatus.fetchUserProfile ? (
+          <ProfilePhotoSkeleton />
+        ) : (
+          <Menu as="div" className="relative">
+            <div>
+              <Menu.Button>
+                <ProfilePhoto photo={userProfile.photo} />
+              </Menu.Button>
+            </div>
+            <Menu.Items
+              className="text-xs absolute right-0 w-40 mt-1 origin-top-right
            bg-white divide-y divide-gray-100 rounded-md shadow-md
            ring-opacity-5 focus:outline-none"
-          >
-            <div className="px-1 py-1 ">
-              <Menu.Item>
-                <button
-                  type="button"
-                  className="group flex rounded-md items-center w-full px-2 py-2"
-                  onClick={logout}
-                >
-                  Log Out
-                </button>
-              </Menu.Item>
-            </div>
-          </Menu.Items>
-        </Menu>
-      )}
+            >
+              <div className="px-1 py-1 ">
+                <Menu.Item>
+                  <button
+                    type="button"
+                    className="group flex rounded-md items-center w-full px-2 py-2"
+                    onClick={logout}
+                  >
+                    Log Out
+                  </button>
+                </Menu.Item>
+              </div>
+            </Menu.Items>
+          </Menu>
+        )}
+      </div>
+      <MapModal isOpen={isMapModalOpen} onModalClose={closeMapModal} />
     </div>
   );
 };
