@@ -1,4 +1,4 @@
-const baseUrl = "http://imask.southindia.cloudapp.azure.com:8080";
+const baseUrl = "http://imask.westus3.cloudapp.azure.com:8080";
 
 const errorMessage = "An error occurred while processing the request";
 
