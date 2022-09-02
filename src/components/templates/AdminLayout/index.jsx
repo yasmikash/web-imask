@@ -1,18 +1,17 @@
 import React, { useEffect } from "react";
 import { Navigate, Outlet } from "react-router-dom";
 import { useApp } from "../../../context/AppContext";
-import { ADMIN_MODE } from "../../../utils/constants";
+import { USER_MODE } from "../../../utils/constants";
 import { Header } from "../../organisms";
 
-const MainLayout = () => {
+const AdminLayout = () => {
   const { authMode } = useApp();
-  if (authMode === ADMIN_MODE) return <Navigate to="/admin" replace />;
+  if (authMode === USER_MODE) return <Navigate to="/" replace />;
 
-  const { fetchUserProfile, fecthAnalyzedAll } = useApp();
+  const { fetchUserProfile } = useApp();
 
   useEffect(() => {
     fetchUserProfile();
-    fecthAnalyzedAll();
   }, []);
 
   return (
@@ -23,4 +22,4 @@ const MainLayout = () => {
   );
 };
 
-export default MainLayout;
+export default AdminLayout;

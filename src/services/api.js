@@ -1,4 +1,4 @@
-const baseUrl = "http://imask.westus3.cloudapp.azure.com:8080";
+const baseUrl = "http://localhost:8080";
 
 const errorMessage = "An error occurred while processing the request";
 
@@ -17,12 +17,42 @@ export const userLoginApi = async (data) => {
   return await response.json();
 };
 
+export const adminLoginApi = async (data) => {
+  const headers = new Headers();
+  headers.set("content-type", "application/json");
+
+  const response = await fetch(`${baseUrl}/admins/signIn`, {
+    headers,
+    method: "POST",
+    body: JSON.stringify(data),
+  });
+
+  if (response.status !== 200) throw new Error(errorMessage);
+
+  return await response.json();
+};
+
 export const fecthUserProfileApi = async (token) => {
   const headers = new Headers();
   headers.set("content-type", "application/json");
   headers.set("authorization", "Bearer " + token);
 
   const response = await fetch(`${baseUrl}/users/profile`, {
+    headers,
+    method: "GET",
+  });
+
+  if (response.status !== 200) throw new Error();
+
+  return await response.json();
+};
+
+export const fecthAdminProfileApi = async (token) => {
+  const headers = new Headers();
+  headers.set("content-type", "application/json");
+  headers.set("authorization", "Bearer " + token);
+
+  const response = await fetch(`${baseUrl}/admins/profile`, {
     headers,
     method: "GET",
   });

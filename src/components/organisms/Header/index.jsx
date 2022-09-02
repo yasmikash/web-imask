@@ -2,11 +2,16 @@ import React from "react";
 import { HomeIcon, LocationMarkerIcon } from "@heroicons/react/solid";
 import { CircleButton, ProfilePhoto, ProfilePhotoSkeleton } from "../../atoms";
 import { useApp } from "../../../context/AppContext";
-import { REQUEST_STATUS } from "../../../utils/constants";
+import {
+  REQUEST_STATUS,
+  USER_LOGIN,
+  USER_MODE,
+} from "../../../utils/constants";
 import { Menu } from "@headlessui/react";
 import MapModal from "../MapModal";
 const Header = () => {
   const {
+    authMode,
     logout,
     requestStatus,
     analyzedAll,
@@ -16,12 +21,6 @@ const Header = () => {
     closeMapModal,
   } = useApp();
 
-  let avgCovidStatusProbability = 0;
-
-  if (REQUEST_STATUS.FULFILLED === requestStatus.fecthAnalyzedAll) {
-    avgCovidStatusProbability = analyzedAll.avgCovidStatusProbability * 100;
-  }
-
   return (
     <div
       className="px-32 py-[25px] flex justify-between items-center drop-shadow-sm h-12
@@ -30,25 +29,17 @@ const Header = () => {
       <div className="w-[95px] h-[46px] bg-[url('/src/assets/images/imask.png')] bg-contain bg-no-repeat"></div>
       <div className="flex justify-center items-center gap-2">
         <CircleButton active icon={HomeIcon} />
-        {REQUEST_STATUS.IDLE === requestStatus.fecthAnalyzedAll ||
-        REQUEST_STATUS.PENDING === requestStatus.fecthAnalyzedAll ? (
-          <div className="w-24 h-5 bg-slate-200 animate-pulse"></div>
-        ) : (
-          <div
-            className={`rounded-xl px-2 text-white text-[10px] p-1 ${
-              avgCovidStatusProbability > 80 ? "bg-red-500" : "bg-light-green"
-            }`}
-          >
-            COVID-19 STATUS: {avgCovidStatusProbability} %
-          </div>
-        )}
+        {authMode === USER_MODE &&
+          getCovidStatusBatch(requestStatus, analyzedAll)}
       </div>
       <div className="flex gap-8 items-center">
-        <CircleButton
-          onClick={openMapModal}
-          active={isMapModalOpen}
-          icon={LocationMarkerIcon}
-        />
+        {authMode === USER_LOGIN && (
+          <CircleButton
+            onClick={openMapModal}
+            active={isMapModalOpen}
+            icon={LocationMarkerIcon}
+          />
+        )}
         {REQUEST_STATUS.IDLE === requestStatus.fetchUserProfile ||
         REQUEST_STATUS.PENDING === requestStatus.fetchUserProfile ? (
           <ProfilePhotoSkeleton />
@@ -80,6 +71,27 @@ const Header = () => {
         )}
       </div>
       <MapModal isOpen={isMapModalOpen} onModalClose={closeMapModal} />
+    </div>
+  );
+};
+
+const getCovidStatusBatch = (requestStatus, analyzedAll) => {
+  let avgCovidStatusProbability = 0;
+
+  if (REQUEST_STATUS.FULFILLED === requestStatus.fecthAnalyzedAll) {
+    avgCovidStatusProbability = analyzedAll.avgCovidStatusProbability * 100;
+  }
+
+  return REQUEST_STATUS.IDLE === requestStatus.fecthAnalyzedAll ||
+    REQUEST_STATUS.PENDING === requestStatus.fecthAnalyzedAll ? (
+    <div className="w-24 h-5 bg-slate-200 animate-pulse"></div>
+  ) : (
+    <div
+      className={`rounded-xl px-2 text-white text-[10px] p-1 ${
+        avgCovidStatusProbability > 80 ? "bg-red-500" : "bg-light-green"
+      }`}
+    >
+      COVID-19 STATUS: {avgCovidStatusProbability} %
     </div>
   );
 };

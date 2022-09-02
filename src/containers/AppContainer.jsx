@@ -1,7 +1,9 @@
 import React, { useState } from "react";
+import jwtDecode from "jwt-decode";
 import AppContext from "../context/AppContext";
 import {
   userLoginApi,
+  adminLoginApi,
   fecthUserProfileApi,
   fecthAnalyzedAllApi,
   fecthAnalyzedStatusApi,
@@ -10,9 +12,15 @@ import {
   fecthAnalyzedCoughRateApi,
   fecthAnalyzedSpo2Api,
   fecthAnalyzedTempApi,
+  fecthAdminProfileApi,
 } from "../services/api";
 import { ToastContainer, toast } from "react-toastify";
-import { REQUEST_STATUS } from "../utils/constants";
+import {
+  ADMIN_MODE,
+  REQUEST_STATUS,
+  USER_LOGIN,
+  USER_MODE,
+} from "../utils/constants";
 
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
@@ -35,10 +43,19 @@ const stateUpdate = (state) => (prevState) => {
 };
 
 const AppContainer = ({ children }) => {
-  const navigate = useNavigate();
-  const [token, setToken] = useState(
-    () => localStorage.getItem("imask-token") || null
+  const storedToken = localStorage.getItem("imask-token") || null;
+
+  let decodedToken;
+  let userType;
+  if (storedToken) {
+    decodedToken = jwtDecode(storedToken);
+    userType = decodedToken.userType;
+  }
+  const [authMode, setAuthMode] = useState(
+    userType === "user" ? USER_MODE : userType === "admin" ? ADMIN_MODE : null
   );
+  const navigate = useNavigate();
+  const [token, setToken] = useState(storedToken);
   const [userProfile, setUserProfile] = useState(null);
   const [requestStatus, setRequestStatus] = useState(requestStatusInit);
   const [analyzedAll, setAnalyzedAll] = useState(null);
@@ -57,16 +74,27 @@ const AppContainer = ({ children }) => {
     navigate("/login");
   };
 
-  const userLogin = async (data) => {
+  const userLogin = async (loginType, data) => {
     try {
       setRequestStatus(stateUpdate({ login: REQUEST_STATUS.PENDING }));
-      const result = await userLoginApi(data);
+      let result;
+      if (loginType === USER_LOGIN) {
+        result = await userLoginApi(data);
+      } else {
+        result = await adminLoginApi(data);
+      }
       const { token, profile } = result;
       setToken(token);
       setUserProfile(profile);
       setRequestStatus(stateUpdate({ login: REQUEST_STATUS.FAILED }));
       localStorage.setItem("imask-token", token);
-      navigate("/", { replace: true });
+      if (loginType === USER_LOGIN) {
+        setAuthMode(USER_MODE);
+        navigate("/", { replace: true });
+      } else {
+        setAuthMode(ADMIN_MODE);
+        navigate("/admin", { replace: true });
+      }
     } catch (error) {
       setRequestStatus(stateUpdate({ login: REQUEST_STATUS.FAILED }));
       toast.error(error.message);
@@ -78,7 +106,9 @@ const AppContainer = ({ children }) => {
       setRequestStatus(
         stateUpdate({ fetchUserProfile: REQUEST_STATUS.PENDING })
       );
-      const result = await fecthUserProfileApi(token);
+      let result;
+      if (authMode === USER_MODE) result = await fecthUserProfileApi(token);
+      if (authMode === ADMIN_MODE) result = await fecthAdminProfileApi(token);
       setUserProfile(result);
       setRequestStatus(
         stateUpdate({ fetchUserProfile: REQUEST_STATUS.FULFILLED })
@@ -242,6 +272,7 @@ const AppContainer = ({ children }) => {
           logout,
           openMapModal,
           closeMapModal,
+          authMode,
           isMapModalOpen,
           requestStatus,
           token,
