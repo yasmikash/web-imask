@@ -13,6 +13,8 @@ import {
   fecthAnalyzedSpo2Api,
   fecthAnalyzedTempApi,
   fecthAdminProfileApi,
+  createFlagLocationsApi,
+  fetchFlaggedLocationsApi,
 } from "../services/api";
 import { ToastContainer, toast } from "react-toastify";
 import {
@@ -36,6 +38,7 @@ const requestStatusInit = {
   fecthAnalyzedTemp: REQUEST_STATUS.IDLE,
   fecthAnalyzedSpo2: REQUEST_STATUS.IDLE,
   fecthAnalyzedCoughRate: REQUEST_STATUS.IDLE,
+  fetchFlaggedLocations: REQUEST_STATUS.IDLE,
 };
 
 const stateUpdate = (state) => (prevState) => {
@@ -65,6 +68,7 @@ const AppContainer = ({ children }) => {
   const [analyzedTemp, setAnalyzedTemp] = useState(null);
   const [analyzedCoughRate, setAnalyzedCoughRate] = useState(null);
   const [analyzedSpo2, setAnalyzedSpo2] = useState(null);
+  const [flaggedLocations, setFlaggedLocations] = useState(null);
   const [isMapModalOpen, setMapModalOpen] = useState(false);
 
   const logout = () => {
@@ -117,7 +121,7 @@ const AppContainer = ({ children }) => {
       setRequestStatus(
         stateUpdate({ fetchUserProfile: REQUEST_STATUS.FAILED })
       );
-      toast.error(message);
+      toast.error(error.message);
     }
   };
 
@@ -135,7 +139,7 @@ const AppContainer = ({ children }) => {
       setRequestStatus(
         stateUpdate({ fecthAnalyzedAll: REQUEST_STATUS.FAILED })
       );
-      toast.error(message);
+      toast.error(error.message);
     }
   };
 
@@ -153,7 +157,7 @@ const AppContainer = ({ children }) => {
       setRequestStatus(
         stateUpdate({ fecthAnalyzedStatus: REQUEST_STATUS.FAILED })
       );
-      toast.error(message);
+      toast.error(error.message);
     }
   };
 
@@ -171,7 +175,7 @@ const AppContainer = ({ children }) => {
       setRequestStatus(
         stateUpdate({ fecthAnalyzedBpm: REQUEST_STATUS.FAILED })
       );
-      toast.error(message);
+      toast.error(error.message);
     }
   };
 
@@ -189,7 +193,7 @@ const AppContainer = ({ children }) => {
       setRequestStatus(
         stateUpdate({ fecthAnalyzedHeartRate: REQUEST_STATUS.FAILED })
       );
-      toast.error(message);
+      toast.error(error.message);
     }
   };
 
@@ -207,7 +211,7 @@ const AppContainer = ({ children }) => {
       setRequestStatus(
         stateUpdate({ fecthAnalyzedCoughRate: REQUEST_STATUS.FAILED })
       );
-      toast.error(message);
+      toast.error(error.message);
     }
   };
 
@@ -225,7 +229,7 @@ const AppContainer = ({ children }) => {
       setRequestStatus(
         stateUpdate({ fecthAnalyzedSpo2: REQUEST_STATUS.FAILED })
       );
-      toast.error(message);
+      toast.error(error.message);
     }
   };
 
@@ -243,7 +247,33 @@ const AppContainer = ({ children }) => {
       setRequestStatus(
         stateUpdate({ fecthAnalyzedTemp: REQUEST_STATUS.FAILED })
       );
-      toast.error(message);
+      toast.error(error.message);
+    }
+  };
+
+  const createFlagLocations = async (data) => {
+    try {
+      await createFlagLocationsApi(data, token);
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
+
+  const fetchFlaggedLocations = async () => {
+    try {
+      setRequestStatus(
+        stateUpdate({ fetchFlaggedLocations: REQUEST_STATUS.PENDING })
+      );
+      const result = await fetchFlaggedLocationsApi(token);
+      setFlaggedLocations(result);
+      setRequestStatus(
+        stateUpdate({ fetchFlaggedLocations: REQUEST_STATUS.FULFILLED })
+      );
+    } catch (error) {
+      toast.error(error.message);
+      setRequestStatus(
+        stateUpdate({ fetchFlaggedLocations: REQUEST_STATUS.FAILED })
+      );
     }
   };
 
@@ -269,6 +299,8 @@ const AppContainer = ({ children }) => {
           fecthAnalyzedHeartRate,
           fecthAnalyzedTemp,
           fecthAnalyzedSpo2,
+          createFlagLocations,
+          fetchFlaggedLocations,
           logout,
           openMapModal,
           closeMapModal,
@@ -277,6 +309,7 @@ const AppContainer = ({ children }) => {
           requestStatus,
           token,
           userProfile,
+          flaggedLocations,
           analyzedAll,
           analyzedStatus,
           analyzedBpm,

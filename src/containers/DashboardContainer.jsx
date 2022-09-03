@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Card, CardSkeleton } from "../components/atoms";
-import { Detail } from "../components/molecules/Detail";
+import { Detail } from "../components/molecules";
 import { useApp } from "../context/AppContext";
 import { REQUEST_STATUS } from "../utils/constants";
 

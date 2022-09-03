@@ -1,4 +1,4 @@
-import { Dashboard } from "../components/pages";
+import { Dashboard, AdminMap } from "../components/pages";
 import { AdminLayout, LoginLayout, MainLayout } from "../components/templates";
 import ProtectedRoute from "../routes/ProtectedRoute";
 
@@ -28,6 +28,10 @@ export const routes = [
       {
         index: true,
         element: <Dashboard />,
+      },
+      {
+        path: "map",
+        element: <AdminMap />,
       },
     ],
   },

@@ -15,7 +15,7 @@ const chartContainers = {
   final: <AnalyzedStatusContainer />,
 };
 
-export const Detail = ({ type }) => {
+const Detail = ({ type }) => {
   let description = "";
   let chartHeader = "";
 
@@ -126,3 +126,5 @@ export const Detail = ({ type }) => {
     </div>
   );
 };
+
+export default Detail;

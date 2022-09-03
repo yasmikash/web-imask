@@ -172,3 +172,34 @@ export const fecthAnalyzedTempApi = async (data, token) => {
 
   return await response.json();
 };
+
+export const createFlagLocationsApi = async (data, token) => {
+  const headers = new Headers();
+  headers.set("content-type", "application/json");
+  headers.set("authorization", "Bearer " + token);
+
+  const response = await fetch(`${baseUrl}/admins/flag-location`, {
+    headers,
+    method: "POST",
+    body: JSON.stringify(data),
+  });
+
+  if (response.status !== 200) throw new Error(errorMessage);
+
+  return await response.json();
+};
+
+export const fetchFlaggedLocationsApi = async (token) => {
+  const headers = new Headers();
+  headers.set("content-type", "application/json");
+  headers.set("authorization", "Bearer " + token);
+
+  const response = await fetch(`${baseUrl}/admins/flag-location`, {
+    headers,
+    method: "GET",
+  });
+
+  if (response.status !== 200) throw new Error(errorMessage);
+
+  return await response.json();
+};

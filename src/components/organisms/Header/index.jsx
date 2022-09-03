@@ -55,7 +55,7 @@ const Header = () => {
            bg-white divide-y divide-gray-100 rounded-md shadow-md
            ring-opacity-5 focus:outline-none"
             >
-              <div className="px-1 py-1 ">
+              <div className="px-1 py-1">
                 <Menu.Item>
                   <button
                     type="button"
