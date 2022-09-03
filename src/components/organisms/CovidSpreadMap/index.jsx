@@ -43,25 +43,10 @@ const CovidSpreadMap = ({ onUpdateLocation, initLocations }) => {
   const onClickUpdateLocation = () => onUpdateLocation(path);
 
   useEffect(() => {
-    if (!navigator.geolocation)
-      throw new Error("Browser does not support geolocation feature");
-    const onLocationFetchSuccess = (position) => {
-      const { latitude, longitude } = position.coords;
-      const location = { lat: 6.8842, lng: 79.8616 };
-      setCurrentLocation(location);
-      setPath([location, location, location]);
-    };
-
-    const onLocationFetchError = (error) => {
-      throw error;
-    };
-
-    navigator.geolocation.getCurrentPosition(
-      onLocationFetchSuccess,
-      onLocationFetchError
-    );
+    const location = { lat: 6.8842, lng: 79.8616 };
+    setCurrentLocation(location);
+    setPath([location, location, location]);
   }, []);
-
   return (
     <div className="w-full h-full relative">
       <div className="flex flex-col gap-2 absolute bg-white p-4 m-2 rounded-sm shadow-md top-0 left-96 z-50 w-96">
