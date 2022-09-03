@@ -6,6 +6,7 @@ const app = express();
 
 const privateKey = fs.readFileSync("private.key");
 const certificate = fs.readFileSync("certificate.crt");
+const ca = fs.readFileSync("ca_bundle.crt");
 
 const APP_PORT = 80;
 
@@ -25,5 +26,5 @@ app.get("/*", (req, res) => {
 // });
 
 https
-  .createServer({ key: privateKey, cert: certificate }, app)
-  .listen(APP_PORT);
+  .createServer({ key: privateKey, cert: certificate, ca: ca }, app)
+  .listen(APP_PORT, () => console.log("App starts"));
