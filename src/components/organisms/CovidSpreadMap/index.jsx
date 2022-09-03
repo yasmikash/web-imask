@@ -47,12 +47,9 @@ const CovidSpreadMap = ({ onUpdateLocation, initLocations }) => {
       throw new Error("Browser does not support geolocation feature");
     const onLocationFetchSuccess = (position) => {
       const { latitude, longitude } = position.coords;
-      setCurrentLocation({ lat: latitude, lng: longitude });
-      setPath([
-        { lat: latitude, lng: longitude },
-        { lat: latitude, lng: longitude },
-        { lat: latitude, lng: longitude },
-      ]);
+      const location = { lat: 6.8842, lng: 79.8616 };
+      setCurrentLocation(location);
+      setPath([location, location, location]);
     };
 
     const onLocationFetchError = (error) => {

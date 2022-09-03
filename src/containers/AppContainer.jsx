@@ -254,6 +254,7 @@ const AppContainer = ({ children }) => {
   const createFlagLocations = async (data) => {
     try {
       await createFlagLocationsApi(data, token);
+      toast.success("Location has been updated");
     } catch (error) {
       toast.error(error.message);
     }
