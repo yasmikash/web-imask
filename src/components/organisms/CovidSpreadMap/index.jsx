@@ -7,8 +7,6 @@ const CovidSpreadMap = ({ onUpdateLocation, initLocations }) => {
   const [currentLocatoin, setCurrentLocation] = useState({ lat: 0, lng: 0 });
   const [path, setPath] = useState(initLocations);
 
-  console.log(initLocations);
-
   const polygonRef = useRef(null);
   const listenersRef = useRef([]);
 
@@ -96,6 +94,7 @@ const CovidSpreadMap = ({ onUpdateLocation, initLocations }) => {
           <Polygon
             options={{
               fillColor: "red",
+              strokeColor: "red",
             }}
             editable
             draggable

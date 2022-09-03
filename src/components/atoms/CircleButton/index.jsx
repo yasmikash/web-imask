@@ -8,7 +8,7 @@ const CircleButton = ({ icon: Icon, active = false, onClick = () => {} }) => {
         active && "bg-dark-green"
       }`}
     >
-      <Icon className={`h-8 text-dark-green ${active && "text-white"}`} />
+      <Icon className={`h-8 ${active ? "text-white" : "text-dark-green"}`} />
     </div>
   );
 };

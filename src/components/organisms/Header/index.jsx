@@ -2,13 +2,10 @@ import React from "react";
 import { HomeIcon, LocationMarkerIcon } from "@heroicons/react/solid";
 import { CircleButton, ProfilePhoto, ProfilePhotoSkeleton } from "../../atoms";
 import { useApp } from "../../../context/AppContext";
-import {
-  REQUEST_STATUS,
-  USER_LOGIN,
-  USER_MODE,
-} from "../../../utils/constants";
+import { REQUEST_STATUS, USER_MODE } from "../../../utils/constants";
 import { Menu } from "@headlessui/react";
 import MapModal from "../MapModal";
+import { Link } from "react-router-dom";
 const Header = () => {
   const {
     authMode,
@@ -23,17 +20,19 @@ const Header = () => {
 
   return (
     <div
-      className="px-32 py-[25px] flex justify-between items-center drop-shadow-sm h-12
+      className="px-32 py-[25px] flex justify-between items-center drop-shadow-sm h-16
      bg-slate-100 text-primary"
     >
       <div className="w-[95px] h-[46px] bg-[url('/src/assets/images/imask.png')] bg-contain bg-no-repeat"></div>
       <div className="flex justify-center items-center gap-2">
-        <CircleButton active icon={HomeIcon} />
+        <Link to="/">
+          <CircleButton active icon={HomeIcon} />
+        </Link>
         {authMode === USER_MODE &&
           getCovidStatusBatch(requestStatus, analyzedAll)}
       </div>
       <div className="flex gap-8 items-center">
-        {authMode === USER_LOGIN && (
+        {authMode === USER_MODE && (
           <CircleButton
             onClick={openMapModal}
             active={isMapModalOpen}
@@ -44,7 +43,7 @@ const Header = () => {
         REQUEST_STATUS.PENDING === requestStatus.fetchUserProfile ? (
           <ProfilePhotoSkeleton />
         ) : (
-          <Menu as="div" className="relative">
+          <Menu as="div" className="relative z-50">
             <div>
               <Menu.Button>
                 <ProfilePhoto photo={userProfile.photo} />
