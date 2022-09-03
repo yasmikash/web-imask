@@ -1,4 +1,4 @@
-const baseUrl = "http://localhost:8080";
+const baseUrl = "http://172.105.149.22:8080";
 
 const errorMessage = "An error occurred while processing the request";
 
